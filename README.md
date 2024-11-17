@@ -114,3 +114,49 @@ spec:
 Проверяем доступ с помощью curl по доменному имени сервиса
 
 ![Image alt](https://github.com/mezhibo/kubernetes4/blob/c2e77f203614557ece29ee3d2c99e977527fde08/IMG/8.jpg)
+
+
+
+**Задание 2. Создать Service и обеспечить доступ к приложениям снаружи кластера**
+
+1. Создать отдельный Service приложения из Задания 1 с возможностью доступа снаружи кластера к nginx, используя тип NodePort.
+
+2. Продемонстрировать доступ с помощью браузера или curl с локального компьютера.
+
+3. Предоставить манифест и Service в решении, а также скриншоты или вывод команды п.2.
+
+
+**Решение 2**
+
+
+Создадим сервис service-dep-nodeport.yaml
+
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-multitool-nodeport
+spec:
+  selector:
+    app: multitool
+  ports:
+    - name: for-nginx
+      nodePort: 30500
+      targetPort: 80
+      port: 80
+    - name: for-multitool
+      nodePort: 30501
+      port: 8080
+      targetPort: 8080
+  type: NodePort
+```
+
+![Image alt](https://github.com/mezhibo/kubernetes4/blob/9fcdbac7e0550f31c19a0e442089715a1a68d49c/IMG/9.jpg)
+
+
+Переходим в браузер и проверяем, видим что у нас приложение пробросилось
+
+![Image alt](https://github.com/mezhibo/kubernetes4/blob/9fcdbac7e0550f31c19a0e442089715a1a68d49c/IMG/10.jpg)
+
+![Image alt](https://github.com/mezhibo/kubernetes4/blob/9fcdbac7e0550f31c19a0e442089715a1a68d49c/IMG/11.jpg)
